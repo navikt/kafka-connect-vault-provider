@@ -26,7 +26,7 @@ public class VaultConfigProvider implements ConfigProvider {
         try {
             logger.warn("Accessing path: [{}]", path);
             LogicalResponse response = fetchPath(path);
-            return new ConfigData(response.getData(), response.getLeaseDuration());
+            return new ConfigData(response.getData(), null);
         } catch (VaultError | VaultException vE) {
             logger.error("Could not fetch data from Vault", vE);
             return new ConfigData(Collections.emptyMap(), 5000L);
@@ -42,16 +42,13 @@ public class VaultConfigProvider implements ConfigProvider {
         try {
             logger.warn("Accessing path: [{}] and keys: [{}]", path, keys);
             LogicalResponse response = fetchPath(path);
-            Map<String, String> toKeep = response.getData().entrySet()
-                    .stream()
-                    .filter((e) -> keys.contains(e.getKey()))
+            Map<String, String> toKeep = response.getData().entrySet().stream().filter((e) -> keys.contains(e.getKey()))
                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-            return new ConfigData(toKeep, response.getLeaseDuration());
+            return new ConfigData(toKeep, null);
         } catch (VaultError | VaultException vE) {
             logger.error("Could not fetch data from Vault", vE);
             return new ConfigData(Collections.emptyMap(), 5000L);
         }
-
 
     }
 

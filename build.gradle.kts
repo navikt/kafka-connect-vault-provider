@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.apache.kafka:kafka_2.12:2.4.0")
+    implementation("org.apache.kafka:kafka_2.12:2.4.1")
     implementation("com.bettercloud:vault-java-driver:5.1.0")
 
     // Use JUnit Jupiter API for testing.
