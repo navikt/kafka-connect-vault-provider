@@ -26,7 +26,8 @@ public class VaultConfigProvider implements ConfigProvider {
         try {
             logger.warn("Accessing path: [{}]", path);
             LogicalResponse response = fetchPath(path);
-            return new ConfigData(response.getData(), null);
+
+            return new ConfigData(response.getData(), response.getRenewable() ? response.getLeaseDuration() : null);
         } catch (VaultError | VaultException vE) {
             logger.error("Could not fetch data from Vault", vE);
             return new ConfigData(Collections.emptyMap(), 5000L);

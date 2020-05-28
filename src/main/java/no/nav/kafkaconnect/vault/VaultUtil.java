@@ -12,9 +12,7 @@ import org.slf4j.LoggerFactory;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Duration;
-import java.util.Optional;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class VaultUtil {
     private static final Logger logger = LoggerFactory.getLogger(VaultUtil.class);
@@ -62,11 +60,17 @@ public class VaultUtil {
         return timer;
     }
 
+    private Map<String, String> secretsPathMap() {
+        Map<String, String> secretsMap = new HashMap<>();
+
+    }
+
     private void init() throws VaultError {
         VaultConfig vaultConfig = null;
         try {
             vaultConfig = new VaultConfig()
                     .address(getPropertyOrDefault("VAULT_ADDR", "https://vault.adeo.no"))
+                    .secretsEnginePathMap()
                     .token(getVaultToken())
                     .openTimeout(5)
                     .readTimeout(30)
