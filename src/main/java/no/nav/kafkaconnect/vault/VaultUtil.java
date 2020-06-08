@@ -60,17 +60,11 @@ public class VaultUtil {
         return timer;
     }
 
-    private Map<String, String> secretsPathMap() {
-        Map<String, String> secretsMap = new HashMap<>();
-
-    }
-
     private void init() throws VaultError {
         VaultConfig vaultConfig = null;
         try {
             vaultConfig = new VaultConfig()
                     .address(getPropertyOrDefault("VAULT_ADDR", "https://vault.adeo.no"))
-                    .secretsEnginePathMap()
                     .token(getVaultToken())
                     .openTimeout(5)
                     .readTimeout(30)
