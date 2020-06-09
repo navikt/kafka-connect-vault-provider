@@ -19,7 +19,6 @@ jobs:
           ORG_GRADLE_PROJECT_githubUser: x-access-token
           ORG_GRADLE_PROJECT_githubPassword: ${{ secrets.GITHUB_TOKEN }}
 
-
   release:
     name: Create Release
     needs: build
@@ -54,3 +53,13 @@ jobs:
             ${{ env.CHANGELOG }}
           draft: false
           prerelease: false
+      - name: Upload release artifact
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/libs/kafka-connect-vault-provider-${{ env.RELEASE_TAG }}.jar
+          asset_name: kafka-connect-vault-provider-${{ env.RELEASE_TAG }}.jar
+          asset_content_type: application/java-archive
