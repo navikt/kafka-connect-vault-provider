@@ -37,6 +37,11 @@ jobs:
         with:
           name: build
           path: build
+      - name: Save gradle cache
+        uses: actions/upload-artifact@v2
+        with:
+          name: .gradle
+          path: .gradle
 
   release:
     name: Create Release
@@ -58,12 +63,11 @@ jobs:
           text="${text//$'\n'/%0A}"
           text="${text//$'\r'/%0D}"
           echo "::set-env name=CHANGELOG::$text"
-      - name: Fetch build artifacts
+      - name: Fetch all artifacts
         uses: actions/download-artifact@v2
-        with:
-          name: build
-          path: build
-      - name: publish
+      - name: Debug
+        run: find build
+      - name: Publish maven package
         run: ./gradlew -Pversion="${VERSION}" publish
         env:
           ORG_GRADLE_PROJECT_githubUser: x-access-token
