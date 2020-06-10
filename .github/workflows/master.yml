@@ -35,6 +35,7 @@ jobs:
       - name: Save build artifacts
         uses: actions/upload-artifact@v2
         with:
+          name: build
           path: build
 
   release:
@@ -60,6 +61,7 @@ jobs:
       - name: Fetch build artifacts
         uses: actions/download-artifact@v2
         with:
+          name: build
           path: build
       - name: publish
         run: ./gradlew -Pversion="${VERSION}" publish
@@ -87,6 +89,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/libs/kafka-connect-vault-provider-${{ env.RELEASE_TAG }}.jar
-          asset_name: kafka-connect-vault-provider-${{ env.RELEASE_TAG }}.jar
+          asset_path: ./build/libs/kafka-connect-vault-provider-${{ env.VERSION }}.jar
+          asset_name: kafka-connect-vault-provider-${{ env.VERSION }}.jar
           asset_content_type: application/java-archive
