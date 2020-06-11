@@ -36,6 +36,9 @@ jobs:
           java-version: '12.x'
       - name: Run Gradle build
         run: ./gradlew -Pversion="${VERSION}" --no-daemon "${TASK_NAME}"
+        env:
+          ORG_GRADLE_PROJECT_githubUser: x-access-token
+          ORG_GRADLE_PROJECT_githubPassword: ${{ secrets.GITHUB_TOKEN }}
       - name: Save build artifacts
         uses: actions/upload-artifact@v2
         with:
