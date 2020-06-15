@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.github.navikt"
-version = properties["version"] ?: "local-build"
+version = (if (properties["version"] != null && properties["version"] != "unspecified") properties["version"] else "local-build")!!
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -34,17 +34,18 @@ val test by tasks.getting(Test::class) {
     // Use junit platform for unit tests
     useJUnitPlatform()
     testLogging {
-      events("passed", "skipped", "failed")
-      showExceptions = true
-      showStackTraces = true
-      showCauses = true
-      exceptionFormat = TestExceptionFormat.FULL
-      showStandardStreams = true
+        events("passed", "skipped", "failed")
+        showExceptions = true
+        showStackTraces = true
+        showCauses = true
+        exceptionFormat = TestExceptionFormat.FULL
+        showStandardStreams = true
     }
 }
 
 tasks.withType<Wrapper> {
-  gradleVersion = "6.4.1"
+    gradleVersion = "6.4.1"
+    distributionType = Wrapper.DistributionType.ALL
 }
 
 val sourcesJar by tasks.registering(Jar::class) {
