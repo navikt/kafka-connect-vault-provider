@@ -64,6 +64,7 @@ public class VaultUtil {
         VaultConfig vaultConfig = null;
         try {
             vaultConfig = new VaultConfig()
+                    .engineVersion(1)
                     .address(getPropertyOrDefault("VAULT_ADDR", "https://vault.adeo.no"))
                     .token(getVaultToken())
                     .openTimeout(5)
